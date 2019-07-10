@@ -24,6 +24,15 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255|bail',
+            'description' => 'required',
+            'price' => 'required|numeric|between:0,9999.99',
+            'sale_price' => 'nullable|numeric|between:0,9999.99',
+            'category' => 'required|max:255',
+        ]);
+
+
         $dati = $request->all();
         $nuovo_prodotto = new Product();
         // $nuovo_prodotto->name = $dati['name'];
@@ -52,20 +61,41 @@ class ProductController extends Controller
     }
 
 
-    public function edit(Product $product)
+    public function edit($product_id)
     {
-        //
+      $product = Product::find($product_id);
+      if(empty($product)) {
+        abort(404);
+      }
+      $data = [
+        'product' => $product
+      ];
+      return view('products.edit', $data);
     }
 
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $product_id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255|bail',
+            'description' => 'required',
+            'price' => 'required|numeric|between:0,9999.99',
+            'sale_price' => 'nullable|numeric|between:0,9999.99',
+            'category' => 'required|max:255',
+        ]);
+
+        $dati = $request->all();
+        $prodotto = Product::find($product_id);
+        $prodotto->update($dati);
+
+        return redirect()->route('products.index');
     }
 
 
-    public function destroy(Product $product)
+    public function destroy($product_id)
     {
-        //
+        $product = Product::find($product_id);
+        $product->delete();
+        return redirect()->route('products.index');
     }
 }

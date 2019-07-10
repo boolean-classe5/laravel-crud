@@ -33,6 +33,12 @@
           <td>{{ $product->category}}</td>
           <td>
             <a href="{{ route('products.show', $product->id) }}" class="btn btn-info">Visualizza</a>
+            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">Modifica</a>
+            <form action="{{ route('products.destroy', $product->id) }}" method="post" class="delete_product_form">
+              @method('DELETE')
+              @csrf
+              <input type="submit" class="btn btn-danger" value="Cancella">
+            </form>
           </td>
         </tr>
         @empty

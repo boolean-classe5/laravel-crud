@@ -30,3 +30,25 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+
+/*
+if($('input[name="price"]').length > 0) {
+  $('input[name="price"]').keyup(function() {
+    var input_value = $(this).val();
+    input_value = input_value.replace(',', '.');
+    $(this).val(input_value);
+  });
+}
+*/
+
+if($('#edit_product_form').length > 0) {
+  $('#edit_product_form').on('submit', function(event) {
+    event.preventDefault();
+    var input_value = $('input[name="price"]').val();
+    input_value = input_value.replace(',', '.');
+    $('input[name="price"]').val(input_value);
+
+    $(this).unbind('submit');
+    $(this).submit();
+  })
+}

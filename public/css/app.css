@@ -10644,3 +10644,7 @@ a.text-dark:focus {
   }
 }
 
+.delete_product_form {
+  display: inline-block;
+}
+
